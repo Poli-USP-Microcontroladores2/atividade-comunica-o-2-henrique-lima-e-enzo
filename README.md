@@ -7,8 +7,8 @@ Atividade: Comunicação UART
 
 * Dupla:
 
-  * Integrante 1:
-  * Integrante 2:
+  * Integrante 1: Enzo Shinzato
+  * Integrante 2: Henrique Lima
 
 * Objetivo: implementar, testar e documentar aplicações de comunicação UART baseadas nos exemplos oficiais “echo_bot” e “async_api”, utilizando desenvolvimento orientado a testes, diagramas de sequência D2 e registro de evidências.
 
@@ -32,6 +32,8 @@ docs/
 
 ## 3.1 Descrição do Funcionamento
 
+O programa do exemplo oficial primeiramente executa a inicialização da UART (caso esteja disponível na placa). Em seguida, define o tamanho da mensagem, com base nesse tamanho, são criados dois buffers: o primeiro, onde a mensagem será armazenada, e o segundo, que armazenará as mensagens recebidas. Após isso, é definida uma função responsável por ler todos os caracteres até encontrar o caractere de fim de texto ('\0'). Concluída a leitura, a mensagem é armazenada no buffer. Por fim, o programa imprime no terminal o texto digitado pelo usuário.
+
 Descrever aqui de forma textual o comportamento esperado baseado no exemplo oficial.
 Link usado como referência:
 [https://docs.zephyrproject.org/latest/samples/drivers/uart/echo_bot/README.html](https://docs.zephyrproject.org/latest/samples/drivers/uart/echo_bot/README.html)
@@ -46,7 +48,15 @@ Link usado como referência:
 
 ### CT2 – Linha vazia
 
-### CT3 – Linha longa
+* Entrada:
+* Saída esperada:
+* Critério de Aceitação:
+
+### CT3 – Linha longa (maior que 32 bits)
+
+* Entrada:
+* Saída esperada:
+* Critério de Aceitação:
 
 (Adicionar mais casos se necessário.)
 
