@@ -34,59 +34,73 @@ docs/
 
 O programa do exemplo oficial primeiramente executa a inicialização da UART (caso esteja disponível na placa). Em seguida, define o tamanho da mensagem, com base nesse tamanho, são criados dois buffers: o primeiro, onde a mensagem será armazenada, e o segundo, que armazenará as mensagens recebidas. Após isso, é definida uma função responsável por ler todos os caracteres até encontrar o caractere de fim de texto ('\0'). Concluída a leitura, a mensagem é armazenada no buffer. Por fim, o programa imprime no terminal o texto digitado pelo usuário.
 
-Descrever aqui de forma textual o comportamento esperado baseado no exemplo oficial.
-Link usado como referência:
-[https://docs.zephyrproject.org/latest/samples/drivers/uart/echo_bot/README.html](https://docs.zephyrproject.org/latest/samples/drivers/uart/echo_bot/README.html)
-
 ## 3.2 Casos de Teste Planejados (TDD)
 
 ### CT1 – Eco básico
 
-* Entrada:
-* Saída esperada:
-* Critério de Aceitação:
+* Entrada: Teste
+* Saída esperada: Teste
+* Critério de Aceitação: O programa deve retornar a mesma palavra digitada pelo o usuário com até 32 bits.
 
 ### CT2 – Linha vazia
 
 * Entrada:
 * Saída esperada:
-* Critério de Aceitação:
+* Critério de Aceitação: O programa deve reconher a linha vazia e não retornar nada.
 
 ### CT3 – Linha longa (maior que 32 bits)
 
-* Entrada:
-* Saída esperada:
-* Critério de Aceitação:
+* Entrada: abcdefghijklmnopqrstuvwxyzabcdefgh
+* Saída esperada: abcdefghijklmnopqrstuvwxyzabcde
+* Critério de Aceitação: O programa deve aparacer até 31 bits no terminal, o último bit será armazenado o caractere de fim de linha.
 
-(Adicionar mais casos se necessário.)
+### CT4 – Espaçamento
+
+* Entrada: a&nbsp;&nbsp;&nbsp;b
+* Saída esperada: a&nbsp;&nbsp;&nbsp;b
+* Critério de Aceitação: O progama deve reconher o espaçamento e armazenar corretamento o espaçamento.
 
 ## 3.3 Implementação
 
-* Arquivo(s) modificados:
-* Justificativa das alterações:
+* Arquivo(s) modificados: Para rodarmos o exemplo foi necessário criar uma pasta de projeto e inserir o arquivo main.c e prj.conf fornecido.
+* Justificativa das alterações: A criação da pasta de projeto foi necessária para rodar o programa na frdm_kl25z.
 
 ## 3.4 Evidências de Funcionamento
 
-Salvar evidências em `docs/evidence/echo_bot/`.
+### Teste eco básico:<br>
+<img src="docs/evidence/echo_bot/teste1.png" alt="Teste 1" style="width:50%;">
 
-Exemplo de referência no README:
+### Teste linha vazia:<br>
+<img src="docs/evidence/echo_bot/teste2.png" alt="Teste 2" style="width:50%;">
 
-```
-[Link para o log CT1](docs/evidence/echo_bot/ct1_output.txt)
-```
+### Teste linha longa:<br>
+<img src="docs/evidence/echo_bot/teste3.png" alt="Teste 3" style="width:50%;">
 
-Adicionar aqui pequenos trechos ilustrativos:
-
-```
-Hello! I'm your echo bot. Tell me something and press enter:
-Echo: Hello World!
-```
+### Teste espaçamento:<br>
+<img src="docs/evidence/echo_bot/teste4.png" alt="Teste 4" style="width:50%;">
 
 ## 3.5 Diagramas de Sequência D2
 
-Vide material de apoio: https://d2lang.com/tour/sequence-diagrams/
+<img src="docs\sequence-diagrams\d2.png" alt="Diagrama Sequencial" style="width:90%;">
 
-Adicionar arquivos (diagrama completo e o código-base para geração do diagrama) em `docs/sequence-diagrams/`.
+### Código-base para geração do diagrama:
+
+```
+shape: sequence_diagram
+
+Input
+RX
+Verificação
+TX
+Output
+Terminal
+
+Input -> RX: Envia caractere via UART
+RX -> Verificação: Passa caractere recebido para transmissão
+Verificação -> TX: Verifica se o caractere não ultrapassou o limite ou se é um caractere de fim '/0'
+TX -> Output: Reenvia o mesmo caractere (eco)
+Output -> Terminal: Exibe caractere ecoado
+```
 
 ---
 
