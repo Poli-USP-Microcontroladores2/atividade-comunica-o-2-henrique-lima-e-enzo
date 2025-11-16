@@ -62,7 +62,7 @@ O programa do exemplo oficial primeiramente executa a inicialização da UART (c
 
 ## 3.3 Implementação
 
-* Arquivo(s) modificados: Para rodarmos o exemplo foi necessário criar uma pasta de projeto e inserir o arquivo main.c e prj.conf fornecido.
+* Arquivo(s) modificados: Para rodarmos o exemplo foi necessário criar uma pasta de projeto e inserir o arquivo main_uart.c e prj.conf fornecido. Além disso houve alteração no CMakeList.txt e platarform.ini para mudar o arquivo main de compilação.
 * Justificativa das alterações: A criação da pasta de projeto foi necessária para rodar o programa na frdm_kl25z.
 
 ## 3.4 Evidências de Funcionamento
@@ -108,9 +108,7 @@ Output -> Terminal: Exibe caractere ecoado
 
 ## 4.1 Descrição do Funcionamento
 
-Descrever o comportamento esperado de forma textual, especialmente com a alternância TX/RX.
-Link usado como referência:
-[https://docs.zephyrproject.org/latest/samples/drivers/uart/async_api/README.html](https://docs.zephyrproject.org/latest/samples/drivers/uart/async_api/README.html)
+O exemplo oficial da API assíncrona de UART do Zephyr registra uma função de callback, responsável por tratar os eventos gerados durante as operações de transmissão e recepção. Após essa etapa, o sistema entra em um loop contínuo de alternância entre os modos TX e RX. Primeiramente, é executada a transmissão de uma sequência de pacotes, utilizando a função uart_tx(), que envia os dados de forma assíncrona. Quando a transmissão é concluída, o evento correspondente é identificado pelo callback, indicando que o sistema pode prosseguir. Na sequência, o programa habilita o modo de recepção por meio da função uart_rx_enable(), preparando um buffer para armazenar os dados recebidos. Durante o período em que o RX está ativo, qualquer dado recebido é processado e armazenado, sendo sinalizado pelos eventos de recepção. Após determinado intervalo de tempo, ou quando a comunicação é finalizada, a recepção é desabilitada e o ciclo retorna ao modo de transmissão. Assim, o comportamento esperado é uma alternância periódica e controlada entre o envio e a leitura de dados, demonstrando o funcionamento da comunicação UART assíncrona no Zephyr.
 
 ## 4.2 Casos de Teste Planejados (TDD)
 
@@ -124,8 +122,8 @@ Link usado como referência:
 
 ## 4.3 Implementação
 
-* Arquivos modificados:
-* Motivos/Justificativas:
+* Arquivo(s) modificados: Para rodarmos o exemplo foi necessário criar uma pasta de projeto e inserir o arquivo main_uart.c e prj.conf fornecido. Houve também alteração no CMakeList.txt e platarform.ini para mudar o arquivo main de compilação.
+* Justificativa das alterações: A criação da pasta de projeto foi necessária para rodar o programa na frdm_kl25z.Além disso, devido ao mal funcionamento da API uart async foi utilizado o a API do echo bot simulando o funcionamento assíncrono do uart.
 
 ## 4.4 Evidências de Funcionamento
 
