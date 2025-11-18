@@ -179,24 +179,24 @@ O mesmo log do CT1 serve de evidência devido aos tempos exibidos:
 ## 4.5 Diagramas de Sequência D2
 <img src="docs\evidence\d2.png" alt="Evidencia de funcionamento" style="width:90%;">
 
-RX_MODE: RX Mode (in_rx_mode = true)
-WAIT_RX: Espera 5s
-IRQ: UART IRQ\nRecebe dados
-STORE: Armazena mensagem\nna fila (msgq)
-TX_MODE: TX Mode (in_rx_mode = false)
-CHECK_MSG: Há mensagens na fila?
-SEND: Envia mensagem\n(print_uart)
-WAIT_TX: Espera 5s
-LOOP: Volta ao início
-
-RX_MODE -> WAIT_RX -> IRQ
-IRQ -> STORE
-WAIT_RX -> TX_MODE
-TX_MODE -> CHECK_MSG
-CHECK_MSG -> SEND: Sim
-SEND -> CHECK_MSG
-CHECK_MSG -> WAIT_TX: Não
-WAIT_TX -> LOOP
+RX_MODE: RX Mode (in_rx_mode = true)<br>
+WAIT_RX: Espera 5s<br>
+IRQ: UART IRQ\nRecebe dados<br>
+STORE: Armazena mensagem\nna fila (msgq)<br>
+TX_MODE: TX Mode (in_rx_mode = false)<br>
+CHECK_MSG: Há mensagens na fila?<br>
+SEND: Envia mensagem\n(print_uart)<br>
+WAIT_TX: Espera 5s<br>
+LOOP: Volta ao início<br>
+<br>
+RX_MODE -> WAIT_RX -> IRQ<br>
+IRQ -> STORE<br>
+WAIT_RX -> TX_MODE<br>
+TX_MODE -> CHECK_MSG<br>
+CHECK_MSG -> SEND: Sim<br>
+SEND -> CHECK_MSG<br>
+CHECK_MSG -> WAIT_TX: Não<br>
+WAIT_TX -> LOOP<br>
 LOOP -> RX_MODE
 
 
