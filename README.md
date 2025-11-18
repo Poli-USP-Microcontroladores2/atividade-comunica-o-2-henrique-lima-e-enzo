@@ -121,19 +121,19 @@ Critérios:
 3. Se a fila (uart_msgq) tem dados, eles são enviados.
 4. A transmissão ocorre a cada 5 segundos.
 
-Resultados obtidos pelo Serial Monitor:
----- Opened the serial port COM4 ----
-*** Booting Zephyr OS build zephyr-v40200 ***
-[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1
-[00:00:00.010,000] <inf> sample: UART callback: RX_RDY
-[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1
-[00:00:05.021,000] <inf> sample: UART callback: TX_DONE
-[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2
-[00:00:10.133,000] <inf> sample: UART callback: RX_RDY
-[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2
-[00:00:15.145,000] <inf> sample: UART callback: TX_DONE
-[00:00:20.251,000] <inf> sample: RX is now enabled - Cycle 3
-[00:00:20.257,000] <inf> sample: UART callback: RX_RDY
+Resultados obtidos pelo Serial Monitor:<br>
+---- Opened the serial port COM4 ----<br>
+*** Booting Zephyr OS build zephyr-v40200 ***<br>
+[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1<br>
+[00:00:00.010,000] <inf> sample: UART callback: RX_RDY<br>
+[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1<br>
+[00:00:05.021,000] <inf> sample: UART callback: TX_DONE<br>
+[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2<br>
+[00:00:10.133,000] <inf> sample: UART callback: RX_RDY<br>
+[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2<br>
+[00:00:15.145,000] <inf> sample: UART callback: TX_DONE<br>
+[00:00:20.251,000] <inf> sample: RX is now enabled - Cycle 3<br>
+[00:00:20.257,000] <inf> sample: UART callback: RX_RDY<br>
 ---- Closed the serial port COM4 ----
 
 Conclusão: o comportamento está conforme previsto no teste.
@@ -159,13 +159,13 @@ Critérios:
 4. O log ou flag interna marca cada transição.
 
 O mesmo log do CT1 serve de evidência devido aos tempos exibidos:
-[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1
-[00:00:00.010,000] <inf> sample: UART callback: RX_RDY
-[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1
-[00:00:05.021,000] <inf> sample: UART callback: TX_DONE
-[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2
-[00:00:10.133,000] <inf> sample: UART callback: RX_RDY
-[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2
+[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1<br>
+[00:00:00.010,000] <inf> sample: UART callback: RX_RDY<br>
+[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1<br>
+[00:00:05.021,000] <inf> sample: UART callback: TX_DONE<br>
+[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2<br>
+[00:00:10.133,000] <inf> sample: UART callback: RX_RDY<br>
+[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2<br>
 [00:00:15.145,000] <inf> sample: UART callback: TX_DONE
 
 ## 4.3 Implementação
