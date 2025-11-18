@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+/*
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
@@ -11,7 +11,7 @@
 
 #include <string.h>
 
-/* Register log module */
+// Register log module 
 LOG_MODULE_REGISTER(sample, LOG_LEVEL_INF);
 
 #define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
@@ -133,3 +133,4 @@ int main(void)
     
     return 0;
 }
+*/

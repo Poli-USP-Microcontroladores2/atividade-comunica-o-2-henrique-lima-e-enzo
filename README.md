@@ -114,11 +114,59 @@ O exemplo oficial da API assíncrona de UART do Zephyr registra uma função de 
 
 ### CT1 – Transmissão de pacotes a cada 5s
 
+Objetivo: Garantir que o sistema envie dados (TX mode) somente após os 5s de RX.
+Critérios:
+1. Sistema inicia em RX mode.
+2. Após k_sleep(5s), entra em TX mode.
+3. Se a fila (uart_msgq) tem dados, eles são enviados.
+4. A transmissão ocorre a cada 5 segundos.
+
+Resultados obtidos pelo Serial Monitor:
+---- Opened the serial port COM4 ----
+*** Booting Zephyr OS build zephyr-v40200 ***
+[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1
+[00:00:00.010,000] <inf> sample: UART callback: RX_RDY
+[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1
+[00:00:05.021,000] <inf> sample: UART callback: TX_DONE
+[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2
+[00:00:10.133,000] <inf> sample: UART callback: RX_RDY
+[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2
+[00:00:15.145,000] <inf> sample: UART callback: TX_DONE
+[00:00:20.251,000] <inf> sample: RX is now enabled - Cycle 3
+[00:00:20.257,000] <inf> sample: UART callback: RX_RDY
+---- Closed the serial port COM4 ----
+
+Conclusão: o comportamento está conforme previsto no teste.
+
 ### CT2 – Recepção
+Objetivo: Garantir que o callback do UART recebe os bytes monte o buffer e ao encontrar \n ou \r envie para a fila.
+
+Critérios:
+1. serial_cb deve montar a string.
+2. Ao final da linha, deve chamar:
+3. k_msgq_put(&uart_msgq, ...)
+
+O buffer deve ser limpo.
+
 
 ### CT3 – Verificação de timing dos 5s
+O sistema deve alternar: RX → espera 5s → TX → espera 5s → RX → ...
 
-(Adicionar mais casos se necessário.)
+Critérios:
+1. RX dura 5 segundos.
+2. TX dura 5 segundos.
+3. Variável in_rx_mode alterna corretamente.
+4. O log ou flag interna marca cada transição.
+
+O mesmo log do CT1 serve de evidência devido aos tempos exibidos:
+[00:00:00.004,000] <inf> sample: RX is now enabled - Cycle 1
+[00:00:00.010,000] <inf> sample: UART callback: RX_RDY
+[00:00:05.015,000] <inf> sample: RX is now disabled - Cycle 1
+[00:00:05.021,000] <inf> sample: UART callback: TX_DONE
+[00:00:10.127,000] <inf> sample: RX is now enabled - Cycle 2
+[00:00:10.133,000] <inf> sample: UART callback: RX_RDY
+[00:00:15.139,000] <inf> sample: RX is now disabled - Cycle 2
+[00:00:15.145,000] <inf> sample: UART callback: TX_DONE
 
 ## 4.3 Implementação
 
@@ -126,35 +174,31 @@ O exemplo oficial da API assíncrona de UART do Zephyr registra uma função de 
 * Justificativa das alterações: A criação da pasta de projeto foi necessária para rodar o programa na frdm_kl25z.Além disso, devido ao mal funcionamento da API uart async foi utilizado o a API do echo bot simulando o funcionamento assíncrono do uart.
 
 ## 4.4 Evidências de Funcionamento
-
-Salvar em `docs/evidence/async_api/`.
-
-Exemplo:
-
-```
-Loop 0:
-Sending 3 packets (packet size: 5)
-Packet: 0
-Packet: 1
-Packet: 2
-```
-
-Ou:
-
-```
-RX is now enabled
-UART callback: RX_RDY
-Data (HEX): 48 65 6C 6C 6F
-Data (ASCII): Hello
-```
+<img src="docs\evidence\funcionamento_evidencia.png" alt="Evidencia de funcionamento" style="width:90%;">
 
 ## 4.5 Diagramas de Sequência D2
+<img src="docs\evidence\d2.png" alt="Evidencia de funcionamento" style="width:90%;">
 
-Vide material de referência: https://d2lang.com/tour/sequence-diagrams/
+RX_MODE: RX Mode (in_rx_mode = true)
+WAIT_RX: Espera 5s
+IRQ: UART IRQ\nRecebe dados
+STORE: Armazena mensagem\nna fila (msgq)
+TX_MODE: TX Mode (in_rx_mode = false)
+CHECK_MSG: Há mensagens na fila?
+SEND: Envia mensagem\n(print_uart)
+WAIT_TX: Espera 5s
+LOOP: Volta ao início
 
-Adicionar arquivos (diagrama completo e o código-base para geração do diagrama) em `docs/sequence-diagrams/`.
+RX_MODE -> WAIT_RX -> IRQ
+IRQ -> STORE
+WAIT_RX -> TX_MODE
+TX_MODE -> CHECK_MSG
+CHECK_MSG -> SEND: Sim
+SEND -> CHECK_MSG
+CHECK_MSG -> WAIT_TX: Não
+WAIT_TX -> LOOP
+LOOP -> RX_MODE
 
----
 
 # 5. Conclusões da Dupla
 
