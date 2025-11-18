@@ -174,10 +174,10 @@ O mesmo log do CT1 serve de evidência devido aos tempos exibidos:
 * Justificativa das alterações: A criação da pasta de projeto foi necessária para rodar o programa na frdm_kl25z.Além disso, devido ao mal funcionamento da API uart async foi utilizado o a API do echo bot simulando o funcionamento assíncrono do uart.
 
 ## 4.4 Evidências de Funcionamento
-<img src="docs\evidence\funcionamento_evidencia.png" alt="Evidencia de funcionamento" style="width:90%;">
+<img src="docs\evidence\async_api\funcionamento_evidencia.png" alt="Evidencia de funcionamento" style="width:90%;">
 
 ## 4.5 Diagramas de Sequência D2
-<img src="docs\evidence\d2.png" alt="Evidencia de funcionamento" style="width:90%;">
+<img src="docs\sequence-diagrams\d2_async.png" alt="Evidencia de funcionamento" style="width:90%;">
 
 RX_MODE: RX Mode (in_rx_mode = true)<br>
 WAIT_RX: Espera 5s<br>
@@ -202,5 +202,5 @@ LOOP -> RX_MODE
 
 # 5. Conclusões da Dupla
 
-* O que deu certo:
-* O que foi mais desafiador:
+* O que deu certo: Ambas as implementações das diferentes API foram feitas. Após discussão entre os integrantes, chegamos à conclusão de que a Async API é a melhor opção(apesar de não ter sido implementada diretamente). Isso se deve ao fato de que, enquanto a abordagem baseada no exemplo echo_bot opera por interrupções a cada byte recebido, o que eleva drasticamente o uso da CPU e impede o sistema de dormir, a Async API utiliza DMA para transferências em bloco direto para a memória. Essa arquitetura libera o processador para executar outras tarefas críticas enquanto a comunicação ocorre em segundo plano, garantindo maior robustez e eficiência energética em comparação ao método de interrupção.
+* O que foi mais desafiador: A parte mais desafiadora foi a implementação da simulação da API da UART assíncrona usando a API do UART de interrupção.
